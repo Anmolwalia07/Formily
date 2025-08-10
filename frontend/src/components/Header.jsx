@@ -9,7 +9,7 @@ export function Header() {
     <>
     <header className="sticky top-0 left-0 w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white shadow-lg z-50 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-18">
           <div className="flex items-center gap-10">
             <div className="text-2xl font-extrabold tracking-wide hover:cursor-pointer" onClick={()=>{
               navigation('/')
@@ -58,8 +58,7 @@ export function Header() {
           </div>
         </div>
       </div>
-    </header>
-     {isVisible && (
+      {isVisible && (
         <div className="md:hidden bg-gray-900 text-white shadow-lg ">
           <nav className="flex flex-col space-y-4 px-6 py-4">
             <a className="hover:text-indigo-400 transition-colors" href="#features">Features</a>
@@ -73,6 +72,8 @@ export function Header() {
           </nav>
         </div>
       )}
+    </header>
+     
     </>
   );
 }

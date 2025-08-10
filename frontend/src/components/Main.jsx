@@ -13,7 +13,7 @@ export function Main() {
             <p className="mt-6 text-lg text-gray-300">
               Create Categorize, Cloze and Comprehension questions with images, 
               preview in real-time, and save responses to MongoDB. 
-              Tailwind + React for a snappy UI.
+               React for a snappy UI.
             </p>
 
             {/* CTA Buttons */}
