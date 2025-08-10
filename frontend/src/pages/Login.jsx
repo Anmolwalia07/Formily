@@ -1,28 +1,39 @@
 import {
   FaLock,
   FaEnvelope,
-  FaGoogle,
-  FaGithub,
-  FaTwitter,
   FaEye,
   FaEyeSlash
 } from "react-icons/fa";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import axios from "axios";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [formData,setFormData]=useState({
+    email:'',
+    password:''
+  })
 
+  const navigation=useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
+    axios.post(`${import.meta.env.VITE_API_Server}/api/user/login`,formData).then((res)=>{
+      if(res.status===200){
+        localStorage.setItem('token',res.data.token);
+        setIsLoading(false);
+        navigation('/dashboard');
+      }
+    }).catch(err=>{
       setIsLoading(false);
-    }, 1500);
+      console.log(err)
+    })
+
   };
 
   return (
@@ -77,6 +88,10 @@ export default function Login() {
                   <input
                     id="email"
                     type="email"
+                    value={formData.email}
+                    onChange={(e)=>{
+                      setFormData({...formData,email:e.target.value})
+                    }}
                     placeholder="you@example.com"
                     className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/10 text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-white/20"
                     required
@@ -97,6 +112,10 @@ export default function Login() {
                   <FaLock className="absolute left-3 top-3.5 text-indigo-300" />
                   <input
                     id="password"
+                    value={formData.password}
+                    onChange={(e)=>{
+                      setFormData({...formData,password:e.target.value})
+                    }}
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     className="w-full pl-10 pr-10 py-3 rounded-lg bg-white/10 text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-white/20"

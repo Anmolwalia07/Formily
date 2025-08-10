@@ -2,17 +2,31 @@ import { FaLock, FaEnvelope, FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { useState } from "react";
-import { Link } from "react-router";
-import Loading from "../components/Loading";
-
+import { Link, useNavigate } from "react-router";
+import axios from "axios"
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+    const [formData, setFormData] = useState({
+      name:'',
+      email:'',
+      password:''
+    });
 
+  const navigation=useNavigate();
+  const Api=import.meta.env.VITE_API_Server;
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 1500);
+     axios.post(`${Api}/api/user/register`,formData).then((res)=>{
+      if(res.status===200){
+        setIsLoading(false);
+        navigation('/login');
+      }
+    }).catch(err=>{
+      console.log(err);
+      setIsLoading(false);
+    })
   };
 
   return (
@@ -60,6 +74,10 @@ export default function SignUp() {
                   <input
                     id="name"
                     type="text"
+                    value={formData.name}
+                    onChange={(e)=>{
+                      setFormData({...formData,name:e.target.value})
+                    }}
                     placeholder="John Doe"
                     className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/10 text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-white/20"
                     required
@@ -76,6 +94,10 @@ export default function SignUp() {
                   <input
                     id="email"
                     type="email"
+                    value={formData.email}
+                    onChange={(e)=>{
+                      setFormData({...formData,email:e.target.value})
+                    }}
                     placeholder="you@example.com"
                     className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/10 text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-white/20"
                     required
@@ -91,6 +113,10 @@ export default function SignUp() {
                   <FaLock className="absolute left-3 top-3.5 text-indigo-300" />
                   <input
                     id="password"
+                    value={formData.password}
+                    onChange={(e)=>{
+                      setFormData({...formData,password:e.target.value})
+                    }}
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     className="w-full pl-10 pr-10 py-3 rounded-lg bg-white/10 text-white placeholder-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 border border-white/20"
