@@ -5,6 +5,7 @@ import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Layout from "./components/Layout";
 import Forms from "./pages/Forms";
+import CreateForm from "./pages/CreateForm";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="forms"element={<Forms/>}/>
         <Route path="analytics"element={<Forms/>}/>
         <Route path="profile"element={<Forms/>}/>
+        <Route path="createform"element={<CreateForm/>}/>
       </Route>
     </Routes>
   )

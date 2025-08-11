@@ -6,7 +6,7 @@ import {
 } from "react-icons/fa";
 import  DashboardHeader  from "./DashboardHeader";
 import SidebarItem from "./SideBarItems";
-import { Outlet, useLocation } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router";
 
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -14,6 +14,7 @@ export default function Layout() {
   const [activeItem, setActiveItem] = useState(isActive.pathname.slice(1));
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const navigation=useNavigate()
 
   const sidebarItems = [
     { icon: <FaHome />, text: "dashboard", badge: null },
@@ -63,7 +64,9 @@ export default function Layout() {
 
         {/* Create Form Button */}
         <div className="p-4">
-          <button className="w-full bg-gray-800 hover:bg-gray-700 text-white font-medium py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 shadow-md transition-all">
+          <button onClick={()=>{
+            navigation('/createform')
+          }} className="w-full bg-gray-800 hover:bg-gray-700 text-white font-medium py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 shadow-md transition-all">
             <FaPlus className="text-sm" />
             {sidebarOpen && <span>Create New Form</span>}
           </button>
