@@ -21,7 +21,6 @@ export default function DashboardHeader() {
   const sidebarItems = [
     { icon: <FaHome />, text: "dashboard", badge: null },
     { icon: <FaFileAlt />, text: "forms", badge: 5 },
-    { icon: <FaChartBar />, text: "analytics", badge: null },
     { icon: <FaUser />, text: "profile", badge: "!" },
     { icon: <FaCog />, text: "settings", badge: null },
   ];

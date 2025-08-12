@@ -38,7 +38,7 @@ export const createUser=async(req,res)=>{
 }
 
 
-export const logineUser=async(req,res)=>{
+export const loginUser=async(req,res)=>{
     const result=loginUserValidation(req.body)
     if(result.error){
         return res.status(401).json({message:"Input details are missing"})
@@ -63,10 +63,27 @@ export const logineUser=async(req,res)=>{
         return res.status(401).json({message:"Password not match"})
     }
 
-    const token=await jwt.sign({id:existUser.id},"secert",{expiresIn:'2hr'})
+    const token=await jwt.sign({id:existUser.id},process.env.JWT_SECRET,{expiresIn:'2hr'})
     
     return res.status(200).json({message:"Login Successfully",token})
     }catch(err){
      return res.status(401).json({message:"Internal Server error"})
+    }
+}
+
+
+export const giveUserInfo=async(req,res)=>{
+    const id=req.userId;
+    try{
+        const user=await prisma.user.findFirst({
+            where:{
+                id:id
+            }
+        })
+
+        return res.status(200).json({user:user})
+    }catch(err){
+        console.log(err)
+        return res.status(401).json({message:"Internal Server error"})
     }
 }

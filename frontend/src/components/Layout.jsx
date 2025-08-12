@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { 
-  FaBars, FaHome, FaUser, FaCog, FaSignOutAlt, 
-  FaChartBar, FaFileAlt, FaPlus, FaSearch, 
+  FaBars, FaHome, FaUser, FaCog, FaSignOutAlt,  FaFileAlt, FaPlus, FaSearch, 
   FaBell, FaQuestionCircle, FaChevronDown, FaChevronLeft
 } from "react-icons/fa";
 import  DashboardHeader  from "./DashboardHeader";
 import SidebarItem from "./SideBarItems";
 import { Outlet, useLocation, useNavigate } from "react-router";
+import { useUser } from "../UserContext";
 
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -14,12 +14,14 @@ export default function Layout() {
   const [activeItem, setActiveItem] = useState(isActive.pathname.slice(1));
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
-  const navigation=useNavigate()
+  const navigation=useNavigate();
+
+  const {user}=useUser();
+  console.log(user)
 
   const sidebarItems = [
     { icon: <FaHome />, text: "dashboard", badge: null },
     { icon: <FaFileAlt />, text: "forms", badge: 5 },
-    { icon: <FaChartBar />, text: "analytics", badge: null },
     { icon: <FaUser />, text: "profile", badge: "!" },
     { icon: <FaCog />, text: "settings", badge: null },
   ];
@@ -34,7 +36,6 @@ export default function Layout() {
     <>
     <DashboardHeader/>
     <div className="flex h-screen bg-gray-900">
-    
       <aside className={`bg-gray-900 text-white transition-all duration-300 ease-in-out ${sidebarOpen ? "w-64" : "w-20"} hidden md:flex flex-col relative z-10 shadow-xl`}>
         {/* Sidebar Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-700">
@@ -165,7 +166,7 @@ export default function Layout() {
                   className="w-10 h-10 rounded-full border-2 border-gray-700 shadow"
                 />
                 <div className="text-left hidden md:block">
-                  <p className="text-sm font-medium text-gray-100">Alex Morgan</p>
+                  <p className="text-sm font-medium text-gray-100">{user.name}</p>
                   <p className="text-xs text-gray-300">Admin</p>
                 </div>
                 <FaChevronDown 
