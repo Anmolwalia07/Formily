@@ -348,7 +348,7 @@ export default function CreateForm() {
           )}
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-5">
+        <div className="flex flex-wrap gap-2 mb-10">
               <button
                 onClick={() => addQuestion("categorize")}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg flex items-center gap-2"
@@ -372,7 +372,7 @@ export default function CreateForm() {
               </button>
             </div>
 
-        <div className=" bg-gray-900 py-4 border-t border-gray-800 mb-10">
+        <div className=" bg-gray-900 py-4 border-t border-gray-800 sticky bottom-10">
           <button
             onClick={handleSubmit}
             className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-5 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 text-lg font-semibold shadow-lg"

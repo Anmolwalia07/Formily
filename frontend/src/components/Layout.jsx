@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { 
   FaBars, FaHome, FaUser, FaCog, FaSignOutAlt,  FaFileAlt, FaPlus, FaSearch, 
-  FaBell, FaQuestionCircle, FaChevronDown, FaChevronLeft
+   FaChevronDown, FaChevronLeft
 } from "react-icons/fa";
 import  DashboardHeader  from "./DashboardHeader";
 import SidebarItem from "./SideBarItems";
@@ -13,11 +13,9 @@ export default function Layout() {
   const isActive=useLocation()
   const [activeItem, setActiveItem] = useState(isActive.pathname.slice(1));
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const navigation=useNavigate();
 
   const {user}=useUser();
-  console.log(user)
 
   const sidebarItems = [
     { icon: <FaHome />, text: "dashboard", badge: null },
@@ -26,18 +24,12 @@ export default function Layout() {
     { icon: <FaCog />, text: "settings", badge: null },
   ];
 
-  const notifications = [
-    { id: 1, text: "New response to your survey", time: "2 min ago", read: false },
-    { id: 2, text: "Your form was viewed 50 times", time: "1 hour ago", read: true },
-    { id: 3, text: "Monthly report is ready", time: "3 hours ago", read: true },
-  ];
 
   return (
     <>
     <DashboardHeader/>
     <div className="flex h-screen bg-gray-900">
       <aside className={`bg-gray-900 text-white transition-all duration-300 ease-in-out ${sidebarOpen ? "w-64" : "w-20"} hidden md:flex flex-col relative z-10 shadow-xl`}>
-        {/* Sidebar Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-700">
           {sidebarOpen ? (
             <div className="flex items-center gap-3">
@@ -63,7 +55,6 @@ export default function Layout() {
           </button>
         </div>
 
-        {/* Create Form Button */}
         <div className="p-4">
           <button onClick={()=>{
             navigation('/createform')
@@ -88,7 +79,6 @@ export default function Layout() {
           ))}
         </nav>
 
-        {/* Logout */}
         <div className="p-2 border-t border-gray-700">
           <SidebarItem 
             icon={<FaSignOutAlt />} 
@@ -99,9 +89,7 @@ export default function Layout() {
         </div>
       </aside>
 
-      {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
         <header className="bg-gray-900 shadow px-6 py-2.5 pt-3 hidden md:flex justify-between items-center border-b border-gray-700">
           <div className="relative w-64">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -114,48 +102,8 @@ export default function Layout() {
             />
           </div>
           
-          <div className="flex items-center space-x-5">
-            <div className="relative">
-              <button 
-                className="p-2 rounded-full hover:bg-gray-700 relative"
-                onClick={() => setNotificationsOpen(!notificationsOpen)}
-              >
-                <FaBell className="text-gray-200 text-xl" />
-                <span className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                  3
-                </span>
-              </button>
-              
-              {notificationsOpen && (
-                <div className="absolute right-0 mt-2 w-80 bg-gray-800 rounded-lg shadow-xl border border-gray-700 z-20">
-                  <div className="p-3 border-b border-gray-700 font-medium text-gray-200">
-                    Notifications
-                  </div>
-                  <div className="max-h-96 overflow-y-auto">
-                    {notifications.map(notification => (
-                      <div 
-                        key={notification.id} 
-                        className={`p-3 border-b border-gray-700 hover:bg-gray-700 cursor-pointer ${
-                          !notification.read ? "bg-gray-700" : ""
-                        }`}
-                      >
-                        <p className="text-sm">{notification.text}</p>
-                        <p className="text-xs text-gray-300 mt-1">{notification.time}</p>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="p-3 text-center text-sm text-indigo-300 font-medium hover:bg-gray-700 cursor-pointer">
-                    View all notifications
-                  </div>
-                </div>
-              )}
-            </div>
-            
-            <button className="p-2 rounded-full hover:bg-gray-700">
-              <FaQuestionCircle className="text-gray-200 text-xl" />
-            </button>
-            
-            <div className="relative">
+          <div className="flex items-center space-x-5">  
+            <div>
               <button 
                 className="flex items-center space-x-2 group"
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
@@ -167,7 +115,7 @@ export default function Layout() {
                 />
                 <div className="text-left hidden md:block">
                   <p className="text-sm font-medium text-gray-100">{user.name}</p>
-                  <p className="text-xs text-gray-300">Admin</p>
+                  {/* <p className="text-xs text-gray-300">Admin</p> */}
                 </div>
                 <FaChevronDown 
                   className={`text-gray-200 transition-transform ${
