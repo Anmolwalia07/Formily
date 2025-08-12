@@ -18,28 +18,47 @@ model User {
 }
 
 model Form {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String?
   headerImage String?
   questions   Question[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  userId      String    @db.ObjectId
-  user        User       @relation("UserForms", fields: [userId], references: [id])
+  responses   FormResponse[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  userId      String         @db.ObjectId
+  user        User           @relation("UserForms", fields: [userId], references: [id])
 }
 
 model Question {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  form        Form      @relation(fields: [formId], references: [id])
-  formId      String    @db.ObjectId
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  form        Form          @relation(fields: [formId], references: [id])
+  formId      String        @db.ObjectId
   type        QuestionType
   title       String?
   description String?
   imageUrl    String?
   payload     Json
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  required    Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model FormResponse {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  form        Form      @relation(fields: [formId], references: [id])
+  formId      String    @db.ObjectId
+  answers     Answer[]
+  submittedAt DateTime  @default(now())
+  meta        Json?
+}
+
+model Answer {
+  id         String        @id @default(auto()) @map("_id") @db.ObjectId
+  response   FormResponse  @relation(fields: [responseId], references: [id])
+  responseId String        @db.ObjectId
+  questionId String        @db.ObjectId
+  value      Json?
 }
 
 enum QuestionType {
