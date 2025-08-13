@@ -28,7 +28,6 @@ export default function ClozeEditor ({ payload, onChange }){
     });
   };
 
-  // Add new distractor
   const addDistractor = () => {
     const distractor = newDistractor.trim();
     if (distractor && !payload.options.includes(distractor)) {
@@ -40,14 +39,12 @@ export default function ClozeEditor ({ payload, onChange }){
     }
   };
 
-  // Remove option
   const removeOption = (index) => {
     const newOptions = [...payload.options];
     newOptions.splice(index, 1);
     onChange({ ...payload, options: newOptions });
   };
 
-  // Move option position
   const moveOption = (index, direction) => {
     const newOptions = [...payload.options];
     const newIndex = direction === 'up' ? index - 1 : index + 1;

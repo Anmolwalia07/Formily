@@ -7,10 +7,6 @@ import { useNavigate } from "react-router";
 import { FaChevronLeft } from "react-icons/fa";
 
 
-
-
-
-
 export default function CreateForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -114,7 +110,6 @@ const handleSubmit = async () => {
               />
             </div>
 
-            {/* Description */}
             <div>
               <label className="block text-sm font-medium mb-1">Description (optional)</label>
               <textarea
@@ -126,7 +121,6 @@ const handleSubmit = async () => {
               />
             </div>
 
-            {/* Header image URL */}
             <div>
               <label className="block text-sm font-medium mb-1">Header Image URL (optional)</label>
               <input
@@ -147,7 +141,6 @@ const handleSubmit = async () => {
           </div>
         </div>
 
-        {/* Question list */}
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-bold">Questions</h2>

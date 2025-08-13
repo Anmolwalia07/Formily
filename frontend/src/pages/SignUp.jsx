@@ -36,7 +36,6 @@ export default function SignUp() {
       <main className="flex-grow flex items-center justify-center bg-gray-900 py-8 sm:py-12 px-4">
         <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8">
           
-          {/* Left Info Section */}
           <div className="flex flex-col justify-center text-center lg:text-left space-y-4">
             <div className="flex flex-col items-center lg:items-start">
               <div className="flex items-center justify-center lg:justify-start gap-3 mb-4">
@@ -58,7 +57,6 @@ export default function SignUp() {
             </div>
           </div>
 
-          {/* Right Form Section */}
           <div className="bg-white/10 backdrop-blur-md rounded-xl shadow-xl p-6 sm:p-8 border border-white/20">
             <h2 className="text-2xl sm:text-3xl font-bold text-white text-center mb-6">
               Sign Up
@@ -145,7 +143,6 @@ export default function SignUp() {
               </button>
             </form>
 
-            {/* Footer Links */}
             <p className="text-sm text-indigo-300 text-center mt-6">
               Already have an account?{" "}
               <Link to="/login" className="font-medium text-white hover:underline transition-all">

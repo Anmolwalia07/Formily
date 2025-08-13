@@ -1,4 +1,32 @@
-export default function FormPreview ({ formData }){
+import React, { useState } from "react";
+
+export default function FormPreview({ formData }) {
+  const [categorizeAnswers, setCategorizeAnswers] = useState({});
+  const [clozeAnswers, setClozeAnswers] = useState({});
+  const [dragData, setDragData] = useState(null);
+
+  const handleDragStart = (data) => {
+    setDragData(data);
+  };
+
+  const handleDropCategorize = (catName) => {
+    if (!dragData) return;
+    setCategorizeAnswers((prev) => ({
+      ...prev,
+      [dragData.itemIndex]: catName
+    }));
+    setDragData(null);
+  };
+
+  const handleDropCloze = (blankIndex) => {
+    if (!dragData) return;
+    setClozeAnswers((prev) => ({
+      ...prev,
+      [blankIndex]: dragData.word
+    }));
+    setDragData(null);
+  };
+
   return (
     <div className="bg-gray-800 p-6 rounded-lg">
       {formData.headerImage && (
@@ -21,11 +49,11 @@ export default function FormPreview ({ formData }){
               <span className="font-semibold">Q{index + 1}:</span>
               <h3 className="font-medium">{q.title || "Untitled Question"}</h3>
             </div>
-            
+
             {q.description && (
               <p className="text-gray-300 text-sm mb-3">{q.description}</p>
             )}
-            
+
             {q.imageUrl && (
               <img
                 src={q.imageUrl}
@@ -36,76 +64,92 @@ export default function FormPreview ({ formData }){
 
             {q.type === "categorize" && (
               <div className="space-y-4">
-                <div className="flex flex-wrap gap-2 mb-3">
+                <div className="flex flex-wrap gap-4">
                   {q.payload.categories.map((cat) => (
                     <div
                       key={cat}
-                      className="bg-gray-600 px-3 py-1 rounded-md"
+                      className="flex-1 min-w-[150px] bg-gray-600 p-3 rounded-md"
+                      onDragOver={(e) => e.preventDefault()}
+                      onDrop={() => handleDropCategorize(cat)}
                     >
-                      {cat}
+                      <p className="font-semibold mb-2">{cat}</p>
+                      {Object.entries(categorizeAnswers)
+                        .filter(([_, assignedCat]) => assignedCat === cat)
+                        .map(([itemIndex]) => (
+                          <div
+                            key={itemIndex}
+                            className="bg-gray-800 px-3 py-1 rounded-md mb-1"
+                          >
+                            {q.payload.items[itemIndex].text}
+                          </div>
+                        ))}
                     </div>
                   ))}
                 </div>
-                <div className="space-y-2">
-                  {q.payload.items.map((item, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <div className="bg-gray-600 px-3 py-1 rounded-md flex-1">
-                        {item.text || "Item " + (i + 1)}
-                      </div>
-                      <select
-                        className="bg-gray-900 border border-gray-600 rounded-md px-2 py-1"
-                        defaultValue={item.category}
+
+                {/* Items Pool */}
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {q.payload.items.map((item, i) =>
+                    categorizeAnswers[i] ? null : (
+                      <div
+                        key={i}
+                        draggable
+                        onDragStart={() =>
+                          handleDragStart({ type: "categorize", itemIndex: i })
+                        }
+                        className="bg-gray-500 px-3 py-1 rounded-md cursor-move"
                       >
-                        {q.payload.categories.map((cat) => (
-                          <option key={cat} value={cat}>
-                            {cat}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  ))}
+                        {item.text}
+                      </div>
+                    )
+                  )}
                 </div>
               </div>
             )}
 
-            {/* Cloze Preview */}
             {q.type === "cloze" && (
               <div className="space-y-3">
-                <div className="bg-gray-900 p-3 rounded-md">
+                <div className="bg-gray-900 p-3 rounded-md flex flex-wrap gap-1">
                   {q.payload.text.split(/({{.*?}})/g).map((part, i) =>
                     part.startsWith("{{") && part.endsWith("}}") ? (
-                      <select
+                      <span
                         key={i}
-                        className="inline-block mx-1 border-b-2 border-gray-500 bg-gray-800 rounded px-2 py-1"
+                        onDragOver={(e) => e.preventDefault()}
+                        onDrop={() => handleDropCloze(i)}
+                        className="inline-block min-w-[80px] border-b-2 border-gray-500 bg-gray-800 rounded px-2 py-1 text-center"
                       >
-                        <option value="">______</option>
-                        {q.payload.options?.map((opt, idx) => (
-                          <option key={idx} value={opt}>
-                            {opt}
-                          </option>
-                        ))}
-                      </select>
+                        {clozeAnswers[i] || "______"}
+                      </span>
                     ) : (
                       <span key={i}>{part}</span>
                     )
                   )}
                 </div>
+
                 {q.payload.options?.length > 0 && (
                   <div className="bg-gray-800 p-3 rounded-md">
                     <p className="text-sm text-gray-300 mb-2">Word Bank:</p>
                     <div className="flex flex-wrap gap-2">
-                      {q.payload.options.map((opt, idx) => (
-                        <span key={idx} className="bg-gray-700 px-2 py-1 rounded text-sm">
-                          {opt}
-                        </span>
-                      ))}
+                      {q.payload.options.map((opt, idx) =>
+                        Object.values(clozeAnswers).includes(opt) ? null : (
+                          <span
+                            key={idx}
+                            draggable
+                            onDragStart={() =>
+                              handleDragStart({ type: "cloze", word: opt })
+                            }
+                            className="bg-gray-700 px-2 py-1 rounded text-sm cursor-move"
+                          >
+                            {opt}
+                          </span>
+                        )
+                      )}
                     </div>
                   </div>
                 )}
               </div>
             )}
 
-            {/* Comprehension Preview */}
             {q.type === "comprehension" && (
               <div className="space-y-4">
                 <div className="bg-gray-900 p-4 rounded-md mb-4">
@@ -114,7 +158,7 @@ export default function FormPreview ({ formData }){
                     {q.payload.passage || "Reading passage goes here..."}
                   </div>
                 </div>
-                
+
                 <div className="space-y-4">
                   {q.payload.questions.map((sq, idx) => (
                     <div key={sq.id} className="bg-gray-800 p-4 rounded-md">
@@ -126,7 +170,7 @@ export default function FormPreview ({ formData }){
                           {sq.points} point{sq.points !== 1 ? "s" : ""}
                         </span>
                       </div>
-                      
+
                       {sq.type === "mcq" && (
                         <div className="space-y-2">
                           {sq.options.map((opt, i) => (
@@ -141,7 +185,7 @@ export default function FormPreview ({ formData }){
                           ))}
                         </div>
                       )}
-                      
+
                       {sq.type === "mcq-multiple" && (
                         <div className="space-y-2">
                           {sq.options.map((opt, i) => (
@@ -156,7 +200,7 @@ export default function FormPreview ({ formData }){
                           ))}
                         </div>
                       )}
-                      
+
                       {sq.type === "short-text" && (
                         <input
                           type="text"
@@ -174,4 +218,4 @@ export default function FormPreview ({ formData }){
       </div>
     </div>
   );
-};
+}

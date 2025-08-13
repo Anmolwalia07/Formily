@@ -73,3 +73,42 @@ export const getNumberOfForms=async(req,res)=>{
         res.status(500).json({ error: "Something went wrong" });
     }
 }
+
+
+export const formResponse = async (req, res) => {
+  try {
+    const { formId, userId, answers } = req.body;
+
+    if (!formId || !answers) {
+      return res.status(400).json({ error: "formId and answers are required" });
+    }
+
+    const newResponse = await prisma.formResponse.create({
+      data: {
+        formId,
+        meta: { userId }, 
+      },
+    });
+
+    const answerData = [];
+
+    for (const questionId of Object.keys(answers)) {
+      const value = answers[questionId];
+
+      answerData.push({
+        responseId: newResponse.id,
+        questionId,
+        value,
+      });
+    }
+
+    await prisma.answer.createMany({
+      data: answerData,
+    });
+
+    res.status(201).json({ message: "Response submitted successfully", responseId: newResponse.id });
+  } catch (error) {
+    console.error("Error saving form response:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

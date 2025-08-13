@@ -87,3 +87,25 @@ export const giveUserInfo=async(req,res)=>{
         return res.status(401).json({message:"Internal Server error"})
     }
 }
+
+export const dashboardInfo=async (req, res) => {
+  try {
+    const userId = req.userId;
+    const totalForms = await prisma.form.count({
+      where: { userId: userId }
+    });
+
+    const responses = await prisma.formResponse.count({
+      where: { form: { userId: userId } }
+    });
+
+    res.json({
+      totalForms,
+      responses
+    });
+
+  } catch (err) {
+    console.error("Error fetching dashboard stats:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+}

@@ -3,7 +3,6 @@ import { FaPlus, FaEye, FaImage, FaMousePointer, FaSync } from 'react-icons/fa';
 export function Main() {
   return (
     <main className="bg-gray-900 text-gray-100">
-      {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-6 py-16 lg:py-24">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>

@@ -4,7 +4,6 @@ export function Footer() {
   return (
     <footer className="bg-gray-800 text-gray-300">
       <div className="max-w-7xl mx-auto px-6 py-10 flex flex-col sm:flex-row justify-between gap-8">
-        {/* Brand */}
         <div>
           <div className="text-2xl font-bold text-white">Formily</div>
           <p className="text-sm mt-2 opacity-80">
@@ -28,7 +27,6 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Links */}
         <div className="flex gap-12">
           <div className="text-sm">
             <div className="font-semibold text-white">Product</div>
@@ -64,7 +62,6 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Bottom bar */}
       <div className="border-t border-gray-700 mt-8">
         <div className="max-w-7xl mx-auto px-6 py-4 text-xs text-gray-500">
           © {new Date().getFullYear()} Formily. All rights reserved.

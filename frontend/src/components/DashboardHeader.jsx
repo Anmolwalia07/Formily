@@ -58,14 +58,11 @@ export default function DashboardHeader() {
         </div>
       </header>
 
-      {/* Sidebar overlay */}
       {isVisible && (
         <div className="">
-          {/* Sidebar panel */}
           <div className="w-full bg-gray-900 text-white p-4 flex flex-col shadow-lg">
 
-            {/* Sidebar items */}
-            <nav className="space-y-1">
+           <nav className="space-y-1">
               {sidebarItems.map((item) => (
                 <SidebarItem
                   key={item.text}
@@ -83,7 +80,6 @@ export default function DashboardHeader() {
             </nav>
           </div>
 
-          {/* Click-outside overlay */}
           <div
             className="flex-1 bg-black bg-opacity-50"
             onClick={() => setIsVisible(false)}
