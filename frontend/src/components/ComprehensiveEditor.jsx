@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export default function ComprehensionEditor ({ payload, onChange }) {
   const addSubQuestion = (type) => {
     const newQuestions = [
@@ -149,7 +151,7 @@ const SubQuestionEditor = ({ question, onChange, onRemove }) => {
           <option value="short-text">Short Text Answer</option>
         </select>
         
-        <div className="flex items-center gap-2 ml-4">
+        {/* <div className="flex items-center gap-2 ml-4">
           <label className="text-sm">Points:</label>
           <input
             type="number"
@@ -158,7 +160,7 @@ const SubQuestionEditor = ({ question, onChange, onRemove }) => {
             value={question.points}
             onChange={(e) => onChange({ ...question, points: parseInt(e.target.value) || 1 })}
           />
-        </div>
+        </div> */}
       </div>
       
       <textarea

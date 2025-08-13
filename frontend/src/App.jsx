@@ -8,6 +8,7 @@ import Forms from "./pages/Forms";
 import CreateForm from "./pages/CreateForm";
 import Profile from "./pages/Profile";
 import ProtectedWrapper from "./components/ProtectedWrapper";
+import SpecificForm from "./pages/SpecificForm";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
       <Route element={<ProtectedWrapper><Layout/></ProtectedWrapper>}>
         <Route path="/dashboard"element={<Dashboard/>}/>
         <Route path="/forms"element={<Forms/>}/>
+        <Route path="/forms/:id"element={<SpecificForm/>}/>
         <Route path="/profile"element={<Profile/>}/>
         <Route path="/createform"element={<CreateForm/>}/>
       </Route>

@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 dotenv.config(); 
 import express from "express";
 import userRouter from "./routes/userRoutes.js"
+import formRouter from "./routes/formRoutes.js"
+
 import cors from "cors"
 
 const app = express();
@@ -20,6 +22,8 @@ app.get("/", (req, res) => {
 
 
 app.use('/api/user',userRouter);
+app.use('/api/forms',formRouter);
+
 
 
 const PORT = process.env.PORT || 3000;

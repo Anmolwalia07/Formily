@@ -70,10 +70,10 @@ export default function ClozeEditor ({ payload, onChange }){
           value={payload.text || ""}
           onChange={handleTextChange}
           rows={3}
-          placeholder="The {{cat}} sat on the {{mat}}"
+          placeholder="The {{boy}} under the {{table}}"
         />
         <p className="text-xs text-gray-500 mt-1">
-          Wrap keywords in double curly braces: {{keyword}}
+          Wrap keywords in double curly braces:
         </p>
       </div>
 

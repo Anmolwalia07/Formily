@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import FormPreview from "../components/PreviewForm";
 import ComprehensionEditor from "../components/ComprehensiveEditor";
 import ClozeEditor from "../components/ClozeEditor";
+import axios from "axios";
+import { useNavigate } from "react-router";
+import { FaChevronLeft } from "react-icons/fa";
 
 
 
@@ -14,6 +17,8 @@ export default function CreateForm() {
   const [headerImage, setHeaderImage] = useState("");
   const [questions, setQuestions] = useState([]);
   const [isPreview,setIsPreview] =useState(false)
+
+  const navigation=useNavigate()
 
   const addQuestion = (type) => {
     setQuestions([
@@ -52,10 +57,26 @@ export default function CreateForm() {
     setQuestions(questions.filter((q) => q.id !== id));
   };
 
-  const handleSubmit = async () => {
+const handleSubmit = async () => {
+  try {
+    const token = localStorage.getItem("token");
     const formData = { title, description, headerImage, questions };
-    console.log("Form data to be saved:", formData);
-   };
+
+    const res = await axios.post(`${import.meta.env.VITE_API_Server}/api/forms/`,formData, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      },
+    });
+    if(res.status===200){
+      console.log("Form saved:", res.data);
+      navigation('/forms')
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error saving form");
+  }
+};
+
 
   return (
     <>
@@ -72,7 +93,9 @@ export default function CreateForm() {
      </div>
     :<div className="bg-gray-900 text-white min-h-screen">
       <div className="max-w-6xl mx-auto p-6 max-h-screen overflow-y-auto space-y-6">
-        <div className="flex justify-between"><h1 className="text-3xl font-bold">Create Form</h1> 
+        <div className="flex justify-between"><h1 className="text-3xl font-bold items-center gap-2 flex"><FaChevronLeft style={{cursor:'pointer'}} onClick={()=>{
+          navigation('/forms')
+        }} className="text-md"/> Create Form</h1> 
         <button className="bg-gray-500 p-2 rounded" onClick={()=>{
           setIsPreview(true)
         }}>Preview</button>
@@ -81,7 +104,6 @@ export default function CreateForm() {
           <h2 className="text-xl font-bold mb-4">Form Details</h2>
           
           <div className="space-y-4">
-            {/* Title */}
             <div>
               <label className="block text-sm font-medium mb-1">Form Title</label>
               <input
@@ -372,7 +394,7 @@ export default function CreateForm() {
               </button>
             </div>
 
-        <div className=" bg-gray-900 py-4 border-t border-gray-800 sticky bottom-10">
+        <div className=" bg-gray-900 py-4 border-t border-gray-800 sm:sticky  sm:bottom-10">
           <button
             onClick={handleSubmit}
             className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-5 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 text-lg font-semibold shadow-lg"
