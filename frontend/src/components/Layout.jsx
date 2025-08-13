@@ -64,7 +64,6 @@ export default function Layout() {
           </button>
         </div>
 
-        {/* Sidebar Menu */}
         <nav className="flex-1 p-2 space-y-1">
           {sidebarItems.map((item) => (
             <SidebarItem 
@@ -82,7 +81,7 @@ export default function Layout() {
         <div className="p-2 border-t border-gray-700">
           <SidebarItem 
             icon={<FaSignOutAlt />} 
-            text="Logout" 
+            text="logout" 
             open={sidebarOpen} 
             className="hover:bg-gray-700"
           />

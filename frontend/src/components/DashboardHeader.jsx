@@ -77,6 +77,12 @@ export default function DashboardHeader() {
                   badge={item.badge}
                 />
               ))}
+              <SidebarItem 
+                          icon={<FaSignOutAlt />} 
+                          text="logout" 
+                          open={sidebarOpen} 
+                          className="hover:bg-gray-700"
+              />
             </nav>
           </div>
 

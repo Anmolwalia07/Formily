@@ -9,6 +9,7 @@ import CreateForm from "./pages/CreateForm";
 import Profile from "./pages/Profile";
 import ProtectedWrapper from "./components/ProtectedWrapper";
 import SpecificForm from "./pages/SpecificForm";
+import Logout from "./pages/Logout";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/forms/:id"element={<SpecificForm/>}/>
         <Route path="/profile"element={<Profile/>}/>
         <Route path="/createform"element={<CreateForm/>}/>
+        <Route path="/logout"element={<Logout/>}/>
       </Route>
     </Routes>
   )
